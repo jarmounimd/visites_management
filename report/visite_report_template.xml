@@ -1,0 +1,158 @@
+<odoo>
+    <data>
+        <template id="print_book_badge">
+            <t t-call="web.external_layout">
+                <div class="page" style="padding: 20px; font-size: 14px;">
+                    <main>
+                    <t t-foreach="docs" t-as="record">
+                    <div class="row mt-4 mb-4" id="informations">
+                    <div t-if="record.id" class="col-auto mw-100 mb-2" name="informations_reference">
+                   <strong style="font-size: 20px;">Rapport ID :
+                   <span class="m-0" t-field="record.id"/>
+                   </strong>
+                </div>
+                <div t-if="record.client_id" class="col-auto mw-100 mb-2" name="informations_client">
+                <strong style="font-size: 20px;">Client:</strong>
+                <p class="m-0" style="font-size: 20px;" t-esc="record.client_id.name + ' ' + record.client_id.prenom"/>
+</div>
+ 
+</div>
+
+
+
+    <div t-if="record.date_visite" class="col-auto mw-100 mb-2" name="informations_date">
+                <strong style="font-size: 20px;">Date de visite:</strong>
+                <p class="m-0" style="font-size: 20px;" t-field="record.date_visite"/>
+</div>
+
+<hr />
+
+
+<table class="table table-sm o_main_table table-borderless mt-4">
+    <!-- In case we want to repeat the header, remove "display: table-row-group" -->
+    <thead style="display: table-row-group">
+        <tr>
+            <th name="th_description" class="text-start">Product Name</th>
+            <th name="th_quantity" class="text-end">Quantity</th>
+            <th name="th_priceunit" class="text-end">Unit Price</th>
+            <th name="th_discount" t-if="display_discount" class="text-end">
+                <span>Disc. %</span>
+            </th>
+            <th name="th_subtotal" class="text-end">
+                <span >Total Price</span>
+            </th>
+        </tr>
+    </thead>
+    <tbody class="sale_tbody">
+            <t t-set="total_price" t-value="0"/>
+
+        <t t-foreach="record.product_line_ids" t-as="product">
+            <tr t-att-class="'bg-200 fw-bold o_line_section'">
+                <td name="td_name">
+                    <span t-field="product.product_id.name"/>
+                </td>
+                <td name="td_quantity" class="text-end">
+                    <span t-field="product.quantity"/>
+                </td>
+                <td name="td_priceunit" class="text-end">
+                    <span t-field="product.unit_price"/>
+                </td>
+                <td name="td_subtotal" class="text-end o_price_total">
+                    <t t-set="total_price" t-value="total_price + product.subtotal"/>
+                    <span t-field="product.subtotal" />
+                </td>
+            </tr>
+        </t>
+        <!-- Subtotal row -->
+        <tr class="is-subtotal text-end clearfix">
+                <hr />
+
+            <td name="td_section_subtotal" colspan="99">
+                <strong class="mr16">Subtotal</strong>
+                <span t-esc="total_price"/>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<hr />
+
+<div t-if="record.result_remark" class="col-auto mw-100 mb-2" name="informations_client">
+                <strong style="font-size: 20px;">Remarques:</strong>
+                <p class="m-0" style="font-size: 20px;" t-esc="record.result_remark"/>
+</div>
+<hr />
+<div t-if="record.note" class="col-auto mw-100 mb-2" name="informations_client">
+                <strong style="font-size: 20px;">Notes:</strong>
+                <p class="m-0" style="font-size: 20px;" t-esc="record.note"/>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <div class="row mt-4 mb-4" id="informations">
+<div t-if="record.id" class="col-auto mw-100 mb-2" name="informations_reference">
+                   <p>nom du produit :</p>
+                </div>
+<div t-if="record.id" class="col-auto mw-100 mb-2" name="informations_reference">
+                   <p>Qunatité</p>
+                </div>
+<div t-if="record.id" class="col-auto mw-100 mb-2" name="informations_reference">
+                   <p>Prix unitaire</p>
+                </div>
+<div t-if="record.id" class="col-auto mw-100 mb-2" name="informations_reference">
+                   <p>Montant total du produit:</p>
+                </div>
+                </div>
+
+    <t t-foreach="record.product_line_ids" t-as="product">
+
+    <div class="row mt-4 mb-4" id="informations">
+    <div t-if="record.id" class="col-auto mw-100 mb-2" name="informations_reference">
+                   <span class="m-0" t-field="product.product_id.name"/>
+                </div>
+    <div t-if="record.id" class="col-auto mw-100 mb-2" name="informations_reference">
+                   <span class="m-0" t-field="product.quantity"/>
+                </div>   
+    <div t-if="record.id" class="col-auto mw-100 mb-2" name="informations_reference">
+                   <span class="m-0" t-field="product.unit_price"/>
+                </div> 
+    <div t-if="record.id" class="col-auto mw-100 mb-2" name="informations_reference">
+                   <span class="m-0" t-field="product.subtotal"/>
+                </div>    
+</div> 
+                </t>                              -->
+
+                <!-- <div t-if="doc.validity_date and doc.state in ['draft', 'sent']"
+                    class="col-auto col-3 mw-100 mb-2"
+                    name="expiration_date">
+                    <strong>Expiration:</strong>
+                    <p class="m-0" t-field="doc.validity_date"/>
+                </div>
+                <div t-if="doc.user_id.name" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Salesperson:</strong>
+                    <p class="m-0" t-field="doc.user_id"/>
+                </div> -->
+                        </t>
+                    </main>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

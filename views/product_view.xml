@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Action pour afficher le modèle de produit -->
+        <record id="visite_product_action_form" model="ir.actions.act_window">
+            <field name="name">Produits</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+    </data>
+        
+</odoo>

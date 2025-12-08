@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="visite_client_print_rapport" model="ir.actions.report">
+    <field name="name">Print Rapport</field>
+    <field name="model">visite.result</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">visites_management.print_book_badge</field> <!-- ID du template -->
+    <field name="report_file">visites_management.print_book_badge</field> <!-- ID du template -->
+    <field name="binding_model_id" ref="model_visite_result"/>
+    <field name="binding_type">report</field>
+</record>
+</odoo>

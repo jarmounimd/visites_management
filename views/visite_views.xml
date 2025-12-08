@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id='view_visite_action' model='ir.actions.act_window'>
+        <field name="name">Visites</field>
+        <field name="res_model">visite.management</field>
+        <field name="view_mode">tree,form,calendar</field>
+</record>
+
+<record id="view_visite_form" model="ir.ui.view">
+        <field name="name">visite.management.form</field>
+        <field name="model">visite.management</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="etat" widget="statusbar" statusbar_visible="planned,in_progress,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="client_id" options="{'no_create': True}"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="nom"/>
+                            <field name="result_id" readonly="1" invisible="not result_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes" placeholder="Notes sur la visite..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<record id="visiteur_view_list" model="ir.ui.view">
+        <field name="name">visite.management.tree</field>
+        <field name="model">visite.management</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="etat=='planned'" decoration-success="etat=='done'" decoration-muted="etat=='cancelled'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="client_id"/>
+                <field name="nom"/>
+                <field name="etat" widget="badge" decoration-info="etat=='planned'" decoration-success="etat=='done'" decoration-warning="etat=='in_progress'" decoration-danger="etat=='cancelled'"/>
+            </tree>
+        </field>
+</record>
+
+<record id="view_visite_search" model="ir.ui.view">
+        <field name="name">visite.management.search</field>
+        <field name="model">visite.management</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="client_id"/>
+                <field name="nom"/>
+                <filter string="Planifiées" name="planned" domain="[('etat', '=', 'planned')]"/>
+                <filter string="En cours" name="in_progress" domain="[('etat', '=', 'in_progress')]"/>
+                <filter string="Terminées" name="done" domain="[('etat', '=', 'done')]"/>
+                <separator/>
+                <filter string="Aujourd'hui" name="today" domain="[('date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="Cette semaine" name="this_week" domain="[('date', '&gt;=', (context_today() - relativedelta(weeks=1)).strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Grouper par">
+                    <filter string="Client" name="group_client" context="{'group_by': 'client_id'}"/>
+                    <filter string="État" name="group_etat" context="{'group_by': 'etat'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'date'}"/>
+                </group>
+            </search>
+        </field>
+</record>
+
+<record id="view_visite_calendar" model="ir.ui.view">
+        <field name="name">visite.management.calendar</field>
+        <field name="model">visite.management</field>
+        <field name="arch" type="xml">
+            <calendar string="Calendrier des visites" date_start="date" color="etat" mode="month">
+                <field name="client_id"/>
+                <field name="nom"/>
+                <field name="etat"/>
+            </calendar>
+        </field>
+</record>
+
+
+<!-- <record id="visiteur_view_list" model="ir.ui.view">
+    <field name="name">visites</field>
+    <field name="model">visite.management</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="date"/>
+            <field name="type_visite"/>
+            <field name="nom"/>
+            <field name="etat"/>
+        </tree>
+    </field>
+</record> -->
+
+
+    
+
+    <!-- <record id="action_visite" model="ir.actions.act_window">
+        <field name="name">Visites</field>
+        <field name="res_model">visite.management</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_visite_management" name="Gestion des Visites" parent="base.menu_custom" sequence="10"/>
+    <menuitem id="menu_visite" name="Visites" parent="menu_visite_management" action="action_visite" sequence="20"/> -->
+</odoo>

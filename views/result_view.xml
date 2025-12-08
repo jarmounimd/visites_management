@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id='visite_result_action_form' model='ir.actions.act_window'>
+    <field name="name">Résultats des visites</field>
+    <field name="res_model">visite.result</field>
+    <field name="view_mode">kanban,tree,form,graph</field>
+</record>
+
+<record id="visite_result_view_form" model="ir.ui.view">
+    <field name="name">visite.result.form</field> 
+    <field name="model">visite.result</field>
+    <field name="arch" type="xml">
+        <form string="Résultat de visite">
+                <header>
+                    <field name="note" widget="statusbar" statusbar_visible="pending,won,failed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="client_id" options="{'no_create': True}"/>
+                            <field name="date_visite"/>
+                        </group>
+                        <group>
+                            <field name="visite_id" options="{'no_create': True}"/>
+                            <field name="total_price" widget="monetary" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Produits Vendus">
+                            <field name="product_line_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id" string="Produit"/>
+                                    <field name="quantity" string="Quantité"/>
+                                    <field name="unit_price" string="Prix Unitaire" readonly="1"/>
+                                    <field name="subtotal" string="Sous-total" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Remarques">
+                            <group>
+                                <field name="result_remark" placeholder="Remarques sur le résultat de la visite..." nolabel="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+        </form>
+    </field>
+</record>
+<record id="visite_result_view_list" model="ir.ui.view">
+        <field name="name">visite.result.tree</field>
+        <field name="model">visite.result</field>
+        <field name="arch" type="xml">
+            <tree string="Résultats de Visites" decoration-success="note=='won'" decoration-danger="note=='failed'" decoration-muted="note=='pending'">
+                <field name="name"/>
+                <field name="client_id" string="Client"/>
+                <field name="date_visite"/>
+                <field name="total_price" string="Prix Total" sum="Total"/>
+                <field name="note" widget="badge" decoration-success="note=='won'" decoration-danger="note=='failed'" decoration-warning="note=='pending'"/>
+            </tree>
+        </field>
+</record>
+
+<record id="visite_result_view_search" model="ir.ui.view">
+        <field name="name">visite.result.search</field>
+        <field name="model">visite.result</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="client_id"/>
+                <field name="date_visite"/>
+                <filter string="En attente" name="pending" domain="[('note', '=', 'pending')]"/>
+                <filter string="Gagné" name="won" domain="[('note', '=', 'won')]"/>
+                <filter string="Échoué" name="failed" domain="[('note', '=', 'failed')]"/>
+                <separator/>
+                <filter string="Ce mois" name="this_month" domain="[('date_visite', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Grouper par">
+                    <filter string="Client" name="group_client" context="{'group_by': 'client_id'}"/>
+                    <filter string="État" name="group_note" context="{'group_by': 'note'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'date_visite'}"/>
+                </group>
+            </search>
+        </field>
+</record>
+<record id="visite_result_graph_view" model="ir.ui.view">
+        <field name="name">visite.result.graph</field>
+        <field name="model">visite.result</field>
+        <field name="arch" type="xml">
+            <graph string="Graphique des Résultats" type="bar">
+                <field name="client_id" type="row"/>
+                <field name="total_price" type="measure"/>
+            </graph>
+        </field>
+</record>
+<record id="visite_result_view_minimal_form" model="ir.ui.view">
+    <field name="name">visite.result.quick.form</field> 
+    <field name="model">visite.result</field>
+    <field name="arch" type="xml">
+        <form>
+            <group>
+                <field name="client_id" placeholder="Nom du client"/>
+                <field name="date_visite"/>
+                <field name="note" widget="radio"/>
+                <field name="result_remark" placeholder="Remarque sur la visite..."/>
+            </group>
+        </form>
+    </field>
+</record>
+<record id="view_task_kanban" model="ir.ui.view">
+    <field name="name">visite.result.kanban</field>
+    <field name="model">visite.result</field>
+    <field name="arch" type="xml">
+        <kanban quick_create="true" default_group_by="note" class="o_kanban_small_column" quick_create_view="visites_management.visite_result_view_minimal_form" on_create="quick_create">
+            <field name="note"/>
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="oe_kanban_card">
+                        <div>
+                            <strong>
+                                <field name="client_id"/>
+                            </strong>
+                        </div>
+                        <div>
+                            <div>
+                                <span><strong>ma remarque:</strong><field name="result_remark"/></span>
+                            </div>
+                            <div>
+                                <span><strong>prix totale:</strong><field name="total_price"/>DH</span>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                </t>
+            </templates>
+            
+
+            
+        </kanban>
+    </field>
+</record>
+
+
+
+
+
+</odoo>

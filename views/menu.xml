@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+        <menuitem name="Visites" id="visiteurs_main_menu" sequence="10"/>
+        <menuitem name="Visites" id="visit_menu" parent="visiteurs_main_menu" action="view_visite_action" sequence="10"/> 
+        <menuitem name="Clients" id="visite_client" parent="visiteurs_main_menu" action="visite_client_action1" sequence="20"/>
+        <menuitem name="Résultats" id="result_sub_menu" parent="visiteurs_main_menu" sequence="30"/>
+        <menuitem name="Résultats de visite" id="visite_result_menu" parent="result_sub_menu" action="visite_result_action_form" sequence="10"/>
+        <menuitem name="Lignes de produits" id="visite_product_line_menu" parent="result_sub_menu" action="visite_product_line_action_form" sequence="20"/>
+        <menuitem name="Configuration" id="config_sub_menu" parent="visiteurs_main_menu" sequence="90"/>
+        <menuitem name="Produits" id="visite_product_menu" parent="config_sub_menu" action="visite_product_action_form" sequence="10"/> 
+    </odoo>
