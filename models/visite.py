@@ -32,5 +32,40 @@ class VisiteManagement(models.Model):
                 if record.etat == 'planned':
                     raise ValidationError("La date de visite planifiée ne peut pas être dans le passé")
 
-    
+    def action_start(self):
+        """Démarrer une visite planifiée"""
+        for record in self:
+            if record.etat == 'planned':
+                record.etat = 'in_progress'
+
+    def action_complete(self):
+        """Terminer une visite en cours"""
+        for record in self:
+            if record.etat == 'in_progress':
+                record.etat = 'done'
+
+    def action_cancel(self):
+        """Annuler une visite"""
+        for record in self:
+            if record.etat not in ['done', 'cancelled']:
+                record.etat = 'cancelled'
+
+    def action_create_result(self):
+        """Créer un résultat pour cette visite"""
+        self.ensure_one()
+        if self.etat == 'done' and not self.result_id:
+            result = self.env['visite.result'].create({
+                'visite_id': self.id,
+                'client_id': self.client_id.id,
+                'date_visite': self.date,
+            })
+            self.result_id = result.id
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Résultat de visite',
+                'res_model': 'visite.result',
+                'res_id': result.id,
+                'view_mode': 'form',
+                'target': 'current',
+            }
         

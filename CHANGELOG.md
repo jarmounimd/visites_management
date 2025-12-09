@@ -1,5 +1,70 @@
 # CHANGELOG - Visites Management Module
 
+## Version 1.0.1 (2025-12-08) - 🚀 MAJOR UPDATE
+
+### 🔧 Critical Fixes
+- **[URGENT]** Fixed Odoo 17.0 compatibility - Removed deprecated `attrs` attribute
+- **[URGENT]** Fixed security permissions - Users can now create records
+- Fixed security groups hierarchy
+- Fixed view inheritance issues
+
+### ✨ New Features
+- **Vue Kanban** for Visits with drag & drop functionality
+- **Vue Kanban** for Clients with visual cards
+- **Action Buttons** in visit form (Start, Complete, Cancel, Create Result)
+- Python methods for state transitions management
+- Help messages in empty views to guide users
+- Dedicated module category "Gestion des Visites"
+- 3 access levels: User, Commercial, Administrator
+- Comprehensive documentation:
+  - GUIDE_UTILISATEUR.md - Complete user guide
+  - QUICK_START.md - Quick start guide
+  - CORRECTIONS.md - Summary of changes
+- Module icon
+
+### 🔐 Security Changes
+**Complete security permissions reorganization:**
+
+**User** (group_visite_user):
+- Create/Modify own visits, clients, results
+- View products (read-only)
+- No deletion rights
+
+**Commercial** (group_commercial):
+- All User rights
+- View/Modify ALL visits, clients, results
+- Delete records
+- Create products
+
+**Administrator** (group_admin_visite):
+- All Commercial rights
+- Access to Configuration menu
+- Complete product management
+- All deletion rights
+
+### 🎨 UI/UX Improvements
+- Reorganized menus with icons
+- Configuration menu restricted to Administrators
+- Improved client form view
+- Better navigation structure
+- Help messages for empty views
+
+### 📝 New Models Methods
+```python
+visite.management:
+  - action_start()          # Start a planned visit
+  - action_complete()       # Complete an in-progress visit
+  - action_cancel()         # Cancel a visit
+  - action_create_result()  # Auto-create result from visit
+```
+
+### 📚 Documentation
+- **GUIDE_UTILISATEUR.md**: 200+ lines comprehensive guide
+- **QUICK_START.md**: Quick reference with FAQs
+- **CORRECTIONS.md**: Detailed change summary
+
+---
+
 ## Version 1.0.0 (2025-12-08)
 
 ### 🔧 Critical Fixes
