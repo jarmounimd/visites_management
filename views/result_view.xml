@@ -20,23 +20,36 @@
     <field name="arch" type="xml">
         <form string="Résultat de visite">
                 <header>
+                    <button name="action_create_followup_visit" string="📅 Planifier Visite de Suivi" type="object" class="oe_highlight" invisible="note != 'won'"/>
                     <field name="note" widget="statusbar" statusbar_visible="pending,won,failed"/>
                 </header>
                 <sheet>
+                    <!-- Rubans de statut -->
+                    <widget name="web_ribbon" title="GAGNÉ 🎉" bg_color="bg-success" invisible="note != 'won'"/>
+                    <widget name="web_ribbon" title="ÉCHOUÉ" bg_color="bg-danger" invisible="note != 'failed'"/>
+                    
                     <div class="oe_title">
                         <h1>
                             <field name="name" readonly="1"/>
                         </h1>
+                        <h3>
+                            <field name="performance_badge" widget="badge"/>
+                        </h3>
                     </div>
                     <group>
-                        <group>
+                        <group string="📋 Informations">
                             <field name="client_id" options="{'no_create': True}"/>
                             <field name="date_visite"/>
+                            <field name="user_id" string="Commercial"/>
                         </group>
-                        <group>
+                        <group string="💰 Financier">
                             <field name="visite_id" options="{'no_create': True}"/>
                             <field name="total_price" widget="monetary" readonly="1"/>
+                            <field name="satisfaction_score" widget="radio" options="{'horizontal': true}"/>
                         </group>
+                    </group>
+                    <group string="📅 Suivi" invisible="note != 'won'">
+                        <field name="next_visit_date" readonly="1"/>
                     </group>
                     <notebook>
                         <page string="Produits Vendus">

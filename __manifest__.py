@@ -18,11 +18,14 @@
         'base',
         'product',
         'web',
+        'mail',  # Pour le chatter et activités
     ],
     'data': [
         'security/groups.xml',
         'security/ir.model.access.csv',
         'data/sequence.xml',
+        'data/visite_tag_data.xml',
+        'views/visite_tag_views.xml',
         'views/client_view.xml',
         'views/visite_views.xml',
         'views/result_view.xml',

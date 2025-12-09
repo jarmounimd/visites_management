@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Tags prédéfinis -->
+        <record id="tag_important" model="visite.tag">
+            <field name="name">Important</field>
+            <field name="color">1</field>
+        </record>
+        
+        <record id="tag_suivi" model="visite.tag">
+            <field name="name">Suivi</field>
+            <field name="color">3</field>
+        </record>
+        
+        <record id="tag_urgente" model="visite.tag">
+            <field name="name">Urgente</field>
+            <field name="color">2</field>
+        </record>
+        
+        <record id="tag_demo" model="visite.tag">
+            <field name="name">Démonstration</field>
+            <field name="color">4</field>
+        </record>
+        
+        <record id="tag_negociation" model="visite.tag">
+            <field name="name">Négociation</field>
+            <field name="color">7</field>
+        </record>
+        
+        <record id="tag_signature" model="visite.tag">
+            <field name="name">Signature</field>
+            <field name="color">10</field>
+        </record>
+    </data>
+</odoo>

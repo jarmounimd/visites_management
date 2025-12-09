@@ -1,0 +1,16 @@
+date,client_id,nom,etat,priority,notes,duration
+2025-12-15,Ahmed Alami,Visite commerciale,planned,2,Présentation nouveaux produits,2.0
+2025-12-16,Fatima Bennis,Rendez-vous suivi,planned,1,Suivi commande en cours,1.0
+2025-12-17,Hassan Idrissi,Visite urgente,planned,3,Client VIP - demande spéciale,1.5
+2025-12-18,Sara Tazi,Démonstration produit,planned,1,Démo logiciel gestion,3.0
+2025-12-20,Omar Meziane,Visite technique,planned,2,Installation et formation,4.0
+2025-12-22,Amina Chakir,Négociation contrat,planned,3,Renouvellement contrat annuel,2.0
+2025-12-23,Youssef Lahlou,Visite prospection,planned,0,Premier contact,1.0
+2025-12-25,Nadia Bennani,Suivi SAV,planned,2,Problème technique à résoudre,2.5
+2025-12-27,Karim Sekkat,Visite commerciale,planned,1,Présentation catalogue,1.5
+2025-12-29,Samira Filali,Visite partenariat,planned,2,Discussion collaboration,2.0
+2026-01-05,Ahmed Alami,Suivi client important,planned,1,Visite de suivi,2.0
+2026-01-10,Fatima Bennis,Présentation nouveautés,planned,2,Nouveaux produits,1.5
+2026-01-15,Hassan Idrissi,Rendez-vous technique,planned,1,Support technique,1.0
+2026-01-20,Sara Tazi,Formation produits,planned,2,Formation équipe,2.5
+2026-01-25,Omar Meziane,Négociation prix,planned,2,Discussion tarifs,1.5

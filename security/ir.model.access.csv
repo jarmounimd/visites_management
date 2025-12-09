@@ -14,3 +14,6 @@ access_product_line_admin,visite.product.line_admin,model_visite_product_line,gr
 access_product_template_user,visite.product_user,model_product_template,group_visite_user,1,0,0,0
 access_product_template_commercial,visite.product_commercial,model_product_template,group_commercial,1,1,1,0
 access_product_template_admin,visite.product_admin,model_product_template,group_admin_visite,1,1,1,1
+access_visite_tag_user,visite.tag_user,model_visite_tag,group_visite_user,1,0,0,0
+access_visite_tag_commercial,visite.tag_commercial,model_visite_tag,group_commercial,1,1,1,0
+access_visite_tag_admin,visite.tag_admin,model_visite_tag,group_admin_visite,1,1,1,1

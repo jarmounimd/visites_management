@@ -18,29 +18,76 @@
     <field name="name">visite.management.kanban</field>
     <field name="model">visite.management</field>
     <field name="arch" type="xml">
-        <kanban default_group_by="etat" class="o_kanban_small_column">
+        <kanban default_group_by="etat" class="o_kanban_small_column" quick_create="false">
             <field name="name"/>
             <field name="client_id"/>
             <field name="date"/>
             <field name="nom"/>
             <field name="etat"/>
+            <field name="priority"/>
+            <field name="color"/>
+            <field name="is_late"/>
+            <field name="days_until"/>
+            <field name="kanban_state"/>
+            <field name="success_rate"/>
+            <field name="user_id"/>
+            <field name="tag_ids"/>
+            <progressbar field="kanban_state" colors='{"done": "success", "blocked": "danger", "normal": "muted"}'/>
             <templates>
                 <t t-name="kanban-box">
-                    <div class="oe_kanban_card oe_kanban_global_click">
+                    <div t-attf-class="oe_kanban_card oe_kanban_global_click oe_kanban_color_#{record.color.raw_value}">
                         <div class="oe_kanban_content">
+                            <!-- En-tête avec priorité -->
                             <div class="o_kanban_record_top">
                                 <div class="o_kanban_record_headings">
-                                    <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                    <strong class="o_kanban_record_title">
+                                        <field name="priority" widget="priority"/>
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a class="dropdown-toggle o-no-caret btn" data-toggle="dropdown" href="#" role="button">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <a role="menuitem" type="edit" class="dropdown-item">Éditer</a>
+                                        <a role="menuitem" type="delete" class="dropdown-item">Supprimer</a>
+                                    </div>
                                 </div>
                             </div>
-                            <div>
-                                <i class="fa fa-user"/> <field name="client_id"/>
+                            <!-- Informations principales -->
+                            <div class="o_kanban_record_body">
+                                <div>
+                                    <i class="fa fa-user"/> <field name="client_id"/>
+                                </div>
+                                <div>
+                                    <i class="fa fa-calendar"/> <field name="date"/>
+                                    <span t-if="record.is_late.raw_value" class="badge badge-danger ml-2">🔔 Retard</span>
+                                    <span t-elif="record.days_until.raw_value == 0" class="badge badge-warning ml-2">📅 Aujourd'hui</span>
+                                    <span t-elif="record.days_until.raw_value == 1" class="badge badge-info ml-2">📌 Demain</span>
+                                </div>
+                                <div>
+                                    <strong>Objet:</strong> <field name="nom"/>
+                                </div>
+                                <!-- Tags -->
+                                <div t-if="record.tag_ids.raw_value.length > 0">
+                                    <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                </div>
+                                <!-- Indicateur de succès -->
+                                <div t-if="record.success_rate.raw_value > 0" class="mt-1">
+                                    <span class="badge badge-success">
+                                        ⭐ Taux de succès: <t t-esc="record.success_rate.value"/>%
+                                    </span>
+                                </div>
                             </div>
-                            <div>
-                                <i class="fa fa-calendar"/> <field name="date"/>
-                            </div>
-                            <div>
-                                <strong>Objet:</strong> <field name="nom"/>
+                            <!-- Pied avec responsable -->
+                            <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="kanban_state" widget="state_selection"/>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <field name="user_id" widget="many2one_avatar_user"/>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -61,21 +108,50 @@
                     <button name="action_cancel" string="Annuler" type="object" invisible="etat in ['done', 'cancelled']"/>
                     <button name="action_create_result" string="Créer Résultat" type="object" class="oe_highlight" invisible="etat != 'done' or result_id"/>
                     <field name="etat" widget="statusbar" statusbar_visible="planned,in_progress,done"/>
+                    <field name="kanban_state" widget="state_selection"/>
                 </header>
                 <sheet>
+                    <!-- Alertes et badges -->
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_create_result" icon="fa-chart-line" invisible="not result_id">
+                            <field name="result_id" widget="statinfo" string="Résultat"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="EN RETARD!" bg_color="bg-danger" invisible="not is_late"/>
+                    <widget name="web_ribbon" title="URGENT!" bg_color="bg-warning" invisible="priority != '3'"/>
+                    
                     <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
                         <h1>
+                            <field name="priority" widget="priority" class="mr-3"/>
                             <field name="name" readonly="1"/>
                         </h1>
+                        <h3>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" placeholder="Tags..."/>
+                        </h3>
                     </div>
                     <group>
-                        <group>
+                        <group string="📋 Informations Principales">
                             <field name="client_id" options="{'no_create': True}"/>
                             <field name="date"/>
-                        </group>
-                        <group>
+                            <field name="user_id" string="Responsable"/>
                             <field name="nom"/>
+                        </group>
+                        <group string="⚙️ Paramètres">
+                            <field name="priority" widget="priority"/>
+                            <field name="duration" widget="float_time"/>
+                            <field name="actual_duration" widget="float_time" invisible="etat not in ['done', 'cancelled']"/>
                             <field name="result_id" readonly="1" invisible="not result_id"/>
+                        </group>
+                    </group>
+                    <group string="📊 Indicateurs">
+                        <group>
+                            <field name="is_late" invisible="1"/>
+                            <field name="days_until" invisible="etat in ['done', 'cancelled']"/>
+                            <label for="success_rate" string="Taux de succès client"/>
+                            <div>
+                                <field name="success_rate" class="oe_inline"/> %
+                            </div>
                         </group>
                     </group>
                     <group>

@@ -1,0 +1,6 @@
+client_id,date_visite,note,satisfaction_score,result_remark
+Ahmed Alami,2025-12-09,won,5,Excellent résultat - Client très satisfait
+Fatima Bennis,2025-12-09,won,4,Bonne vente - Commande importante
+Hassan Idrissi,2025-12-09,failed,2,Client pas intéressé pour le moment
+Sara Tazi,2025-12-09,won,5,Signature contrat annuel - Très satisfait
+Omar Meziane,2025-12-09,pending,3,En attente de décision client

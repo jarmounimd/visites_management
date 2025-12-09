@@ -26,6 +26,11 @@
                 <field name="mobile"/>
                 <field name="ville"/>
                 <field name="pays"/>
+                <field name="category"/>
+                <field name="loyalty_badge"/>
+                <field name="total_revenue"/>
+                <field name="client_score"/>
+                <field name="color"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_card oe_kanban_global_click">
@@ -47,6 +52,14 @@
                                     <div t-if="record.ville.raw_value">
                                         <i class="fa fa-map-marker"/> <field name="ville"/>, <field name="pays"/>
                                     </div>
+                                    <div class="mt-2">
+                                        <field name="category" widget="badge"/>
+                                        <field name="loyalty_badge" widget="badge"/>
+                                    </div>
+                                    <div class="mt-1">
+                                        <strong>💰 CA:</strong> <field name="total_revenue"/> DH
+                                        | <strong>📊 Score:</strong> <field name="client_score"/>/100
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -62,10 +75,41 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <!-- Statistiques en haut -->
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" icon="fa-calendar" name="action_view_visits">
+                            <field name="total_visits" widget="statinfo" string="Visites"/>
+                        </button>
+                        <button class="oe_stat_button" type="object" icon="fa-money" name="action_view_results">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value"><field name="total_revenue"/> DH</span>
+                                <span class="o_stat_text">Chiffre d'Affaires</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" type="object" icon="fa-shopping-cart" name="action_view_results">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value"><field name="avg_purchase"/> DH</span>
+                                <span class="o_stat_text">Panier Moyen</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" type="object" icon="fa-percent" name="action_view_results">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value"><field name="success_rate"/>%</span>
+                                <span class="o_stat_text">Taux de Conversion</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <!-- Badges -->
                     <div class="oe_title">
                         <h1>
                             <field name="display_name" readonly="1"/>
                         </h1>
+                        <h3>
+                            <field name="category" widget="badge"/>
+                            <field name="loyalty_badge" widget="badge" class="ml-2"/>
+                            <span class="ml-3 badge badge-info">Score: <field name="client_score"/>/100</span>
+                        </h3>
                     </div>
                     <group>
                         <group string="Informations personnelles">

@@ -37,13 +37,6 @@
         action="visite_result_action_form" 
         sequence="10"/>
     
-    <menuitem 
-        name="Lignes de produits" 
-        id="visite_product_line_menu" 
-        parent="result_sub_menu" 
-        action="visite_product_line_action_form" 
-        sequence="20"/>
-    
     <!-- Configuration -->
     <menuitem 
         name="Configuration" 
@@ -57,5 +50,12 @@
         id="visite_product_menu" 
         parent="config_sub_menu" 
         action="visite_product_action_form" 
-        sequence="10"/> 
+        sequence="10"/>
+    
+    <menuitem 
+        name="Tags" 
+        id="visite_tag_menu" 
+        parent="config_sub_menu" 
+        action="visite_tag_action" 
+        sequence="20"/>
 </odoo>
